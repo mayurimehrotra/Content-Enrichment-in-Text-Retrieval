@@ -23,7 +23,7 @@ public class LSTU {
 
 	public static void main(String[] args) {
 		try{
-			shorten();
+			shorten("abcd");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -31,14 +31,14 @@ public class LSTU {
 		
 	}
 
-	private static void shorten() throws Exception{
+	private static String shorten(String realName) throws Exception{
 		// TODO Auto-generated method stub
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost("http://localhost:8080/a");
 
 		// Request parameters and other properties.
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("lsturl", "http://www.google.com/file.pdf"));
+		parameters.add(new BasicNameValuePair("lsturl", "http://www.google.com/"+realName));
 		parameters.add(new BasicNameValuePair("format", "json"));
 		httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
 
@@ -54,6 +54,7 @@ public class LSTU {
 		output=(String)myObject.get("short");
 		output=output.replace("http://localhost:8080", "polar.usc.edu");
 		System.out.println(output);
+		return output;
 	}
 	
 }
