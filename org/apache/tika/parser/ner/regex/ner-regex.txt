@@ -1,0 +1,2 @@
+WEEK_DAY=(?i)((sun)|(mon)|(tues)|(thurs)|(fri)|((sat)(ur)?))(day)?
+PHONE_NUMBER=((\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})
