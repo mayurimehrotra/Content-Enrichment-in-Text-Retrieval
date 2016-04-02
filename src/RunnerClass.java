@@ -8,6 +8,11 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.tika.parser.ner.regex.PDFRenameUtil;
+import org.xml.sax.SAXException;
+
 public class RunnerClass {
 	
 	public static String TTRRunner(String fileName){
@@ -52,9 +57,9 @@ public class RunnerClass {
 				TTRObj.smoothing();
 				TTRObj.getStdDev();
 				TTRObj.getRealContentArea();
-				String TTRString = TTRObj.PrintContentAreas();
-				
+				String TTRString = TTRObj.PrintContentAreas();							
 				return TTRString;
+								
 	}//end of TTRRunner
 	
 	public static String LSTURunner(String dummyPath) throws Exception{
@@ -65,6 +70,7 @@ public class RunnerClass {
 	
 	public static void NERParserRunner(String text) throws Exception{
 		HashMap<String,Set<String>> NEREntities = NERRegexUtil.extractNER(text);
+		System.out.println("hi");
 		//output NEREntities to JSON file code goes here
 		
 		
@@ -73,10 +79,15 @@ public class RunnerClass {
 	public static void GROBIDRunner(File path){
 		try {
 			
-			GrobidParserUtil.grobidGenerator(path);
+			try {
+				GrobidParserUtil.grobidGenerator(path);
+				
+			} catch (SAXException | ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}//end of GROBIDRunner
@@ -85,7 +96,7 @@ public class RunnerClass {
 		FileOutputStream fop = null;
 		File file;
 		try {
-			file = new File("some/location/temp.geot");
+			file = new File("temp.geot");
 			fop = new FileOutputStream(file);
 
 			if (!file.exists()) {
@@ -101,7 +112,7 @@ public class RunnerClass {
 			e.printStackTrace();
 		}
 		
-		GeoTopicUtil.GeoTopicGenerator("some/location/temp.geot");
+		GeoTopicUtil.GeoTopicGenerator("temp.geot");
 	}//end of GeoTopicRunner
 	
 	public static void FileIterator(File path)throws Exception{
@@ -113,7 +124,9 @@ public class RunnerClass {
 	            String fileHandle = fileEntry.getPath();
 	            
 	    		String TTRString = TTRRunner(fileHandle);
+	    		System.out.println("TTRString :" +TTRString);
 	    		String shortUrl = LSTURunner(fileHandle);
+	    		System.out.println(shortUrl);
 	    		NERParserRunner(TTRString);
 	    		GeoTopicRunner(TTRString);
 	            
@@ -122,12 +135,13 @@ public class RunnerClass {
 	}
 
 	public static void main(String[] args) throws Exception{
-		// TODO Auto-generated method stub
-		File fileHandle = new File("/home/mayuri/Downloads/SOME/DIR");
+		File fileHandle = new File("/home/mayuri/demo");
 		FileIterator(fileHandle);
 		
-		File pdfPathForGrobid = new File("/path/to/pdf/folder");
+		File pdfPathForGrobid = new File("/home/mayuri/demo/");
+		PDFRenameUtil.RenamePDF(pdfPathForGrobid);
 		GROBIDRunner(pdfPathForGrobid);
 	}
 
 }
+
