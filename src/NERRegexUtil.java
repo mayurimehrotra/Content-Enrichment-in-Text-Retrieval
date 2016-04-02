@@ -21,16 +21,16 @@ public class NERRegexUtil {
         Metadata md = new Metadata();
         tika.parse(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)), md);
 
-        Set<String> TEMPERATURE = new HashSet<>(Arrays.asList(md.getValues("TEMPERATURE")));
-        Set<String> WEIGHT = new HashSet<>(Arrays.asList(md.getValues("WEIGHT")));
-        Set<String> TIME = new HashSet<>(Arrays.asList(md.getValues("TIME")));
-        Set<String> DERIVED_UNITS = new HashSet<>(Arrays.asList(md.getValues("DERIVED_UNITS")));
-        Set<String> HEIGHT = new HashSet<>(Arrays.asList(md.getValues("HEIGHT")));
-        Set<String> EARTH_REALM = new HashSet<>(Arrays.asList(md.getValues("EARTH_REALM")));
-        Set<String> NONLIVING_SUBSTANCES = new HashSet<>(Arrays.asList(md.getValues("NONLIVING_SUBSTANCES")));
-        Set<String> PHYSICAL_PROCESSES = new HashSet<>(Arrays.asList(md.getValues("PHYSICAL_PROCESSES")));
-        Set<String> PHYSICAL_PROPERTIES = new HashSet<>(Arrays.asList(md.getValues("PHYSICAL_PROPERTIES")));
-        Set<String> LIVING_SUBSTANCES = new HashSet<>(Arrays.asList(md.getValues("LIVING_SUBSTANCES")));
+        Set<String> TEMPERATURE = new HashSet<>(Arrays.asList(md.getValues("NER_TEMPERATURE")));
+        Set<String> WEIGHT = new HashSet<>(Arrays.asList(md.getValues("NER_WEIGHT")));
+        Set<String> TIME = new HashSet<>(Arrays.asList(md.getValues("NER_TIME")));
+        Set<String> DERIVED_UNITS = new HashSet<>(Arrays.asList(md.getValues("NER_DERIVED_UNITS")));
+        Set<String> HEIGHT = new HashSet<>(Arrays.asList(md.getValues("NER_HEIGHT")));
+        Set<String> EARTH_REALM = new HashSet<>(Arrays.asList(md.getValues("NER_EARTH_REALM")));
+        Set<String> NONLIVING_SUBSTANCES = new HashSet<>(Arrays.asList(md.getValues("NER_NONLIVING_SUBSTANCES")));
+        Set<String> PHYSICAL_PROCESSES = new HashSet<>(Arrays.asList(md.getValues("NER_PHYSICAL_PROCESSES")));
+        Set<String> PHYSICAL_PROPERTIES = new HashSet<>(Arrays.asList(md.getValues("NER_PHYSICAL_PROPERTIES")));
+        Set<String> LIVING_SUBSTANCES = new HashSet<>(Arrays.asList(md.getValues("NER_LIVING_SUBSTANCES")));
         
         HashMap<String,Set<String>> setEntities = new HashMap<String,Set<String>>();
         setEntities.put("TEMPERATURE", TEMPERATURE);
@@ -52,3 +52,4 @@ public class NERRegexUtil {
 	}
 
 }
+
