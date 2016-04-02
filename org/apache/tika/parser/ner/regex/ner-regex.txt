@@ -1,6 +1,7 @@
 TEMPERATURE=-?(\d+)\s*(°|(degrees))?\s*(Celsius|C|De|Fahrenheit|F|Kelvin|K|N|R|Ré|Rø) 
 WEIGHT=\d+(\.\d{1,10})?\s*(gram(s)?|kilogram(s)?|kg(s)?|gm(s)?|lb(s)?|oz)
 TIME=^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$
+SPEED=\d+(\.\d{1,10})?\s*(yd(s)?|mile(s)?|meter(s)?|kilometer(s)?|km(s)?|centimeter(s)?|cm(s)?|millimeter(s)?|mm(s)?|inches|inch|)\s*((^)?2)?\s*(per)\s*(second(s)?|sec|s|minute(s)?|min(s)?|hour(s)?|hr(s)?)
 DERIVED_UNITS=\d+(\.\d{1,10})?\s*(rad|sr|Hz|N|Pa|J|Wb|W|C|V|F|ohm|Ω|Sv|S|T|H|°C|lm|lx|Bq|Gy|kat)
 HEIGHT=\d+(\.\d{1,10})?\s*(yd(s)?|mile(s)?|meter(s)?|kilometer(s)?|km(s)?|centimeter(s)?|cm(s)?|millimeter(s)?|mm(s)?|inches|inch|)
 EARTH_REALM=(troposphere|stratosphere|mesosphere|thermosphere|exosphere|ionosphere|earth|crust|upper mantle|lower mantle|ocean|river|pacific|arctic|atlantic|north pole|south pole|mountain|solid earth)
