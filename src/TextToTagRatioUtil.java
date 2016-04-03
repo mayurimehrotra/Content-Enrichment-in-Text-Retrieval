@@ -16,11 +16,11 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class TextToTagRatioUtil {
 	
-	private static ArrayList<Float> TTRArray = new ArrayList<>();
-	private static ArrayList<Float> SmoothedTTRArray = new ArrayList<>();
-	private static ArrayList<Integer> ContentArrayLines = new ArrayList<>();
+	private static ArrayList<Float> TTRArray = null;
+	private static ArrayList<Float> SmoothedTTRArray = null;
+	private static ArrayList<Integer> ContentArrayLines = null;
 	private static float stdDeviation , mean;
-	private static StringBuilder outputString=new StringBuilder();
+	private static StringBuilder outputString=null;
 	
 	public static void main(String[] args) {
 						
@@ -35,7 +35,7 @@ public class TextToTagRatioUtil {
 		}
 		
 		//create a new file with xhtml content of the input file
-		String fileName="/home/mayuri/Downloads/test.pdf";
+		String fileName="/home/mayuri/demo/0A2C925150D60B32F9A827BEF6238073F8616C9C7295C9DF0A774D7592147A94";
 		String command = "java -jar /home/mayuri/Downloads/tika-app-1.12.jar -x " + fileName;
 		Process process = null ;
 		try
@@ -97,9 +97,11 @@ public class TextToTagRatioUtil {
 			fileReader=new FileReader(fileIn);
 			bufferedReader = new BufferedReader(fileReader);
 	        String line;
+	        outputString=new StringBuilder();
 	        while (true) {	        	
-	            line = bufferedReader.readLine().replaceAll("\\<.*?\\>", "");
+	            line = bufferedReader.readLine();
 	            if (line == null) { break; }
+	            line=line.replaceAll("\\<.*?\\>", "");
 	            if(j==lineNumber){
 		            bufferedWriter.append(line);		            
 		            bufferedWriter.newLine();
@@ -113,7 +115,7 @@ public class TextToTagRatioUtil {
 	            }
 	            j++;
 	        }
-	        //System.out.println(outputString.toString());
+	       // System.out.println(outputString.toString());
 	        
 		} catch (IOException e1) {			
 			e1.printStackTrace();
@@ -131,18 +133,18 @@ public class TextToTagRatioUtil {
 
 	public void getRealContentArea() {
 		
-		System.out.println("\nReal Content Areas : ");
+		//System.out.println("\nReal Content Areas : ");
 		int SmoothedTTRArraySize=SmoothedTTRArray.size();
-		
-		System.out.println("Smoothed Array :" +SmoothedTTRArraySize + " " + SmoothedTTRArray.toString());
+		ContentArrayLines=new ArrayList<>();
+		//System.out.println("Smoothed Array :" +SmoothedTTRArraySize + " " + SmoothedTTRArray.toString());
 				
 		for(int i=0;i<SmoothedTTRArraySize;i++){
 			if(SmoothedTTRArray.get(i) >= stdDeviation ){
-				System.out.print(i+ " ");
+				//System.out.print(i+ " ");
 				ContentArrayLines.add(i);
 			}			
 		}
-		System.out.println("\n\nSize: "+ContentArrayLines.size());
+		//System.out.println("\n\nSize: "+ContentArrayLines.size());
 	}
 
 
@@ -156,9 +158,9 @@ public class TextToTagRatioUtil {
 
 	    stdDeviation = (float) stats.getStandardDeviation();
 	    mean=(float)stats.getMean();	    
-	    stdDeviation +=mean;
+	    //stdDeviation +=mean;
 	    
-	    System.out.println("Std Dev: "+stdDeviation);
+	    //System.out.println("Std Dev: "+stdDeviation);
 	}
 
 
@@ -167,7 +169,7 @@ public class TextToTagRatioUtil {
 		int radius=2,i,sum,TTRArraySize= TTRArray.size();	
 		int denominatorValue= 2*radius + 1;
 		float e;				
-		
+		SmoothedTTRArray = new ArrayList<>();
 		for(int index=0;index<TTRArraySize;index++){
 			sum=0;
 			for(i=index-radius;i<=index+radius;i++){
@@ -184,6 +186,7 @@ public class TextToTagRatioUtil {
 		int x,y,i=0;		
 		BufferedReader bufferedReader=null;
 		FileReader fileReader=null;
+		TTRArray=new ArrayList<>();
 		try {
 			fileReader = new FileReader(file);
 			bufferedReader=new BufferedReader(fileReader);
@@ -206,7 +209,7 @@ public class TextToTagRatioUtil {
 					//System.out.println(i++ + "\t" + line + "\tWord Count " + x+ "\tTag Count " + y);	
 				}			
 			}
-			System.out.println("TTRArray " + TTRArray.size()+ " " +  TTRArray.toString());
+			//System.out.println("TTRArray " + TTRArray.size()+ " " +  TTRArray.toString());
 		} catch (IOException e1) {			
 			e1.printStackTrace();
 		}finally{

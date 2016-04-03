@@ -12,53 +12,66 @@ import org.xml.sax.SAXException;
 
 public class GrobidParserUtil {
 	
-	public static void grobidGenerator(File path) throws IOException,InterruptedException{
+	public static void grobidGenerator(File path) throws IOException,InterruptedException,SAXException,ParserConfigurationException{
 		System.out.println("Processing Files....");
 		
 		String inputPapersPath = path.toString();
-		ProcessBuilder pb = new ProcessBuilder("java","-Xmx1024m","-jar","/Users/PavanLupane/599-2/grobidWork/src/grobid/grobid-core/target/grobid-core-0.4.1-SNAPSHOT.one-jar.jar","-gH","/Users/PavanLupane/599-2/grobidWork/src/grobid/grobid-home/","-gP","/Users/PavanLupane/599-2/grobidWork/src/grobid/grobid-home/config/grobid.properties","-dIn",inputPapersPath,"-dOut","/Users/PavanLupane/599-2/grobidWork/src/grobid/out","-exe","processFullText"); 
+		ProcessBuilder pb = new ProcessBuilder("java","-Xmx1024m","-jar","/home/mayuri/grobid/src/grobid/grobid-core/target/grobid-core-0.4.1-SNAPSHOT.one-jar.jar","-gH","/home/mayuri/grobid/src/grobid/grobid-home/","-gP","/home/mayuri/grobid/src/grobid/grobid-home/config/grobid.properties","-dIn",inputPapersPath,"-dOut","/home/mayuri/grobidOut/","-exe","processFullText","-r"); 
 		Process grobidProcess = pb.start();
 		grobidProcess.waitFor();
+		
+		System.out.println("Calling Student.py....");
+		String spyString = "/home/mayuri/grobidOut/";
+		File spyPath = new File(spyString);
+		scholarPyRunner(spyPath);
+		
 	}
 	
-	public static void studentPyRunner(File path) throws IOException,InterruptedException,ParserConfigurationException, SAXException{
+	public static void scholarPyRunner(File path) throws IOException,InterruptedException,ParserConfigurationException, SAXException{
 	
 		for (File fileEntry : path.listFiles()) {
-			if(fileEntry.toString().contains(".pdf")){
-				System.out.println("Processing File ::"+ fileEntry);
-				
-				int index =	fileEntry.toString().lastIndexOf("/");
-				String fileName = fileEntry.toString().substring(index+1);
-//				System.out.println("FIlename is ::"+fileName);
-				int dotIndex = fileName.indexOf('.');
-				String fileNamePart = fileName.substring(0, dotIndex);
-//				System.out.println("name is ::"+fileNamePart);
-				
-				String xmlPathString = "/Users/PavanLupane/599-2/grobidWork/src/grobid/out/"+fileNamePart+".tei.xml";
-				File xmlFile = new File(xmlPathString);
-				
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
-				Document doc = dbBuilder.parse(xmlFile);
-				doc.getDocumentElement().normalize();
-				
-				NodeList authorsFirstNameNode = doc.getElementsByTagName("forename");
-				Node foreNameNode = authorsFirstNameNode.item(0);
-				String firstName = foreNameNode.getTextContent();
-				
-				NodeList authorsSurnameNode = doc.getElementsByTagName("surname");
-				Node surnameNode = authorsSurnameNode.item(0);
-				String surname = surnameNode.getTextContent();
-				
-				String authorName = firstName+" "+surname;
-				//System.out.println("First Author is :: "+authorName);
-				
-				String t = "python /Users/PavanLupane/599-2/scholarPyWork/scholar.py/scholar.py -c 20 --author "+ authorName + " >> /Users/PavanLupane/599-2/scholarPyWork/scholar.py/output/"+fileNamePart+".txt";
-				ProcessBuilder pb2 = new ProcessBuilder("bash","-c",t); 
-				//ProcessBuilder pb2 = new ProcessBuilder(t);
-				Process scholarPyProcess = pb2.start();
-				scholarPyProcess.waitFor();
+			if(fileEntry.isDirectory()){
+				scholarPyRunner(fileEntry);
+			}else{
+			
+				if(fileEntry.toString().contains(".tei.xml")){
+					System.out.println("Processing File ::"+ fileEntry);
 					
+					int index =	fileEntry.toString().lastIndexOf("/");
+					String fileName = fileEntry.toString().substring(index+1);
+	//				System.out.println("FIlename is ::"+fileName);
+					int dotIndex = fileName.indexOf('.');
+					String fileNamePart = fileName.substring(0, dotIndex);
+	//				System.out.println("name is ::"+fileNamePart);
+					
+					String xmlPathString = fileEntry.toString();
+					File xmlFile = new File(xmlPathString);
+					
+					DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+					DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
+					Document doc = dbBuilder.parse(xmlFile);
+					doc.getDocumentElement().normalize();
+					
+					NodeList authorsFirstNameNode = doc.getElementsByTagName("forename");
+					if(authorsFirstNameNode.item(0) != null){
+					Node foreNameNode = authorsFirstNameNode.item(0);
+					NodeList authorsSurnameNode = doc.getElementsByTagName("surname");
+					Node surnameNode = authorsSurnameNode.item(0);
+					//if(!foreNameNode.getTextContent().isEmpty()){
+						String firstName = foreNameNode.getTextContent();
+						String surname = surnameNode.getTextContent();
+						
+						String authorName = firstName+" "+surname;
+						//System.out.println("First Author is :: "+authorName);
+						
+						String t = "python /home/mayuri/Scholar/src/scholar.py/scholar.py -c 20 --author "+ authorName + "- csv >> /home/mayuri/scholarPyOut/"+fileNamePart+".txt";
+						ProcessBuilder pb2 = new ProcessBuilder("bash","-c",t); 
+						//ProcessBuilder pb2 = new ProcessBuilder(t);
+						Process scholarPyProcess = pb2.start();
+						scholarPyProcess.waitFor();
+					}
+
+				}	
 			}	
 		}
 	}
@@ -69,7 +82,7 @@ public class GrobidParserUtil {
 		 File PDFpath =new File(pathString);
 		 try {
 			grobidGenerator(PDFpath);
-			studentPyRunner(PDFpath);
+			scholarPyRunner(PDFpath);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

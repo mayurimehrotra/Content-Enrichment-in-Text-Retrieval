@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -28,7 +29,7 @@ public class RunnerClass {
 		}
 		
 		//create a new file with xhtml content of the input file
-				String command = "java -jar /Users/PavanLupane/599-2/grobidWork/src/tika-app-1.12.jar -x " + fileName;
+				String command = "java -jar /home/mayuri/Downloads/tika-app-1.12.jar -x " + fileName;
 				Process process = null ;
 				try
 				{
@@ -58,7 +59,8 @@ public class RunnerClass {
 				TTRObj.smoothing();
 				TTRObj.getStdDev();
 				TTRObj.getRealContentArea();
-				String TTRString = TTRObj.PrintContentAreas();							
+				String TTRString =null;
+				TTRString = TTRObj.PrintContentAreas();							
 				return TTRString;
 								
 	}//end of TTRRunner
@@ -77,15 +79,22 @@ public class RunnerClass {
 	}//end of NERParserRunner
 	
 	public static void GROBIDRunner(File path){
-		//GrobidParserUtil.grobidGenerator(path);
-		JSONBuilder.JSONBuilderUtil(LSTUMap);
+		try {
+			GrobidParserUtil.grobidGenerator(path);
+		} catch (IOException | InterruptedException | SAXException | ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		path = new File("/home/mayuri/scholarPyOut");
+		JSONBuilder.JSONBuilderUtil(path);
 	}//end of GROBIDRunner
 	
-	public static void GeoTopicRunner(String fileContent){
+	public static void GeoTopicRunner(String fileContent,String fileName){
 		FileOutputStream fop = null;
-		File file;
+		File file;String fileName2=null;
 		try {
-			file = new File("temp.geot");
+			fileName2= fileName + ".geot";
+			file = new File(fileName2);
 			fop = new FileOutputStream(file);
 
 			if (!file.exists()) {
@@ -101,7 +110,7 @@ public class RunnerClass {
 			e.printStackTrace();
 		}
 		
-		GeoTopicUtil.GeoTopicGenerator("temp.geot");
+		GeoTopicUtil.GeoTopicGenerator(fileName2);
 	}//end of GeoTopicRunner
 	
 	public static void FileIterator(File path)throws Exception{
@@ -112,27 +121,36 @@ public class RunnerClass {
 	        else {
 	            String fileHandle = fileEntry.getPath();
 	            RunnerClass runObj = new RunnerClass();
-	            
-	    		String TTRString = TTRRunner(fileHandle);
-	    		System.out.println("TTRString :" +TTRString);
-	    		String shortUrl = "SomeFile";
-	    		LSTUMap.put("fileName", shortUrl);
-	    		//String shortUrl = LSTURunner(fileHandle);
-	    		//System.out.println(shortUrl);
+	            String TTRString =null;
+	    		System.out.println("Started :: "+ fileEntry.getName());
+	            TTRString = TTRRunner(fileHandle);
+	    		//System.out.println("TTRString :" +TTRString);
+	            System.out.println("Completed TTR");
+	    		String shortUrl = LSTURunner(fileHandle);
+	    		System.out.println("Added to map :: "+fileEntry.getName());
+	    		LSTUMap.put(fileEntry.getName(), shortUrl);
+	    		System.out.println("Completed LSTU");
+	    		System.out.println(shortUrl);
+	    		System.out.println("nfdn");
 	    		HashMap<String,Set<String>> NEREntities = NERParserRunner(TTRString);
-	    		//GeoTopicRunner(TTRString);
+	    		System.out.println("Completed NER");
+	    		GeoTopicRunner(TTRString,fileEntry.getName());
+	    		System.out.println("Completed GEOTOPIC");
 	    		JSONBuilder.JSONBuilderUtil(shortUrl,NEREntities);
+	    		NEREntities.clear();
 	        }
 	    }
 	}
 
 	public static void main(String[] args) throws Exception{
-		File fileHandle = new File("/Users/PavanLupane/599-2/grobidWork/src/grobid/papers");
+		File fileHandle = new File("/home/mayuri/demo");
 		FileIterator(fileHandle);
 		
-		File pdfPathForGrobid = new File("/Users/PavanLupane/599-2/grobidWork/src/grobid/papers");
-		//PDFRenameUtil.RenamePDF(pdfPathForGrobid);
+		File pdfPathForGrobid = new File("/home/mayuri/demo/");
+		PDFRenameUtil.RenamePDF(pdfPathForGrobid);
 		GROBIDRunner(pdfPathForGrobid);
+		System.out.println("Completed GROBID");
+		
 	}
 
 }

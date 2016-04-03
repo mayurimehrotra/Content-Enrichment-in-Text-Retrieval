@@ -11,11 +11,11 @@ public class PDFRenameUtil {
 	        } 
 	        else {
 	            String fileHandle = fileEntry.getName();
-	            String renamedFile = fileEntry.toString()+".pdf";
-	            File outFileName =new File(renamedFile);
-	            fileEntry.renameTo(outFileName);
-	    		
-	            
+	            if(!fileHandle.endsWith(".pdf")){
+	            	String renamedFile = fileEntry.toString()+".pdf";
+	 	            File outFileName =new File(renamedFile);
+	 	            fileEntry.renameTo(outFileName);
+	            }      
 	        }
 	    }
 	}

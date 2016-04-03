@@ -20,10 +20,10 @@ public class NERRegexUtil {
         Tika tika = new Tika(new TikaConfig("tika-config.xml"));
         Metadata md = new Metadata();
         tika.parse(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)), md);
-
         Set<String> TEMPERATURE = new HashSet<>(Arrays.asList(md.getValues("NER_TEMPERATURE")));
         Set<String> WEIGHT = new HashSet<>(Arrays.asList(md.getValues("NER_WEIGHT")));
         Set<String> TIME = new HashSet<>(Arrays.asList(md.getValues("NER_TIME")));
+        Set<String> SPEED = new HashSet<>(Arrays.asList(md.getValues("NER_SPEED")));
         Set<String> DERIVED_UNITS = new HashSet<>(Arrays.asList(md.getValues("NER_DERIVED_UNITS")));
         Set<String> HEIGHT = new HashSet<>(Arrays.asList(md.getValues("NER_HEIGHT")));
         Set<String> EARTH_REALM = new HashSet<>(Arrays.asList(md.getValues("NER_EARTH_REALM")));
@@ -33,17 +33,29 @@ public class NERRegexUtil {
         Set<String> LIVING_SUBSTANCES = new HashSet<>(Arrays.asList(md.getValues("NER_LIVING_SUBSTANCES")));
         
         HashMap<String,Set<String>> setEntities = new HashMap<String,Set<String>>();
-        setEntities.put("TEMPERATURE", TEMPERATURE);
-        setEntities.put("WEIGHT", WEIGHT);
-        setEntities.put("TIME", TIME);
-        setEntities.put("DERIVED_UNITS", DERIVED_UNITS);
-        setEntities.put("HEIGHT", HEIGHT);
-        setEntities.put("EARTH_REALM", EARTH_REALM);
-        setEntities.put("NONLIVING_SUBSTANCES", NONLIVING_SUBSTANCES);
-        setEntities.put("PHYSICAL_PROCESSES", PHYSICAL_PROCESSES);
-        setEntities.put("PHYSICAL_PROPERTIES", PHYSICAL_PROPERTIES);
-        setEntities.put("LIVING_SUBSTANCES", LIVING_SUBSTANCES);
-        
+        setEntities.clear();
+        setEntities.put("MEASUREMENT_TEMPERATURE", TEMPERATURE);
+        setEntities.put("MEASUREMENT_WEIGHT", WEIGHT);
+        setEntities.put("MEASUREMENT_TIME", TIME);
+        setEntities.put("MEASUREMENT_DERIVED_UNITS", DERIVED_UNITS);
+        setEntities.put("MEASUREMENT_HEIGHT", HEIGHT);
+        setEntities.put("MEASUREMENT_SPEED", HEIGHT);
+        setEntities.put("SWEET_EARTH_REALM", EARTH_REALM);
+        setEntities.put("SWEET_NONLIVING_SUBSTANCES", NONLIVING_SUBSTANCES);
+        setEntities.put("SWEET_PHYSICAL_PROCESSES", PHYSICAL_PROCESSES);
+        setEntities.put("SWEET_PHYSICAL_PROPERTIES", PHYSICAL_PROPERTIES);
+        setEntities.put("SWEET_LIVING_SUBSTANCES", LIVING_SUBSTANCES);
+        /*TEMPERATURE.clear();
+        WEIGHT.clear();
+        TIME.clear();
+        DERIVED_UNITS.clear();
+        HEIGHT.clear();
+        EARTH_REALM.clear();
+        LIVING_SUBSTANCES.clear();
+        NONLIVING_SUBSTANCES.clear();
+        PHYSICAL_PROCESSES.clear();
+        PHYSICAL_PROPERTIES.clear();
+        */
         return setEntities;
 		
 	}
@@ -52,4 +64,3 @@ public class NERRegexUtil {
 	}
 
 }
-

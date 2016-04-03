@@ -53,7 +53,7 @@ public class LSTUUtil {
 		JSONObject myObject =(JSONObject) new JSONParser().parse(output);
 		in.close();
 		output=(String)myObject.get("short");
-		output=output.replace("http://localhost:8080", "polar.usc.edu");
+		output= output.replace("http://localhost:8080", "");
 		//System.out.println(output);
 		return output;
 	}
