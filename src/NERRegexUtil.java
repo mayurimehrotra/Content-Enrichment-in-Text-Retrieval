@@ -12,11 +12,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class NERRegexUtil {
+        //This function extracts NEW and SWEET entities using Regular Expressions
 
 	public static HashMap<String,Set<String>> extractNER(String text) throws Exception{
-		//String text = "Hey, Lets meet on this Sunday or MONDAY because i am busy on Saturday,Wednesday,Friday,thursday";
+
+        //Change default NER parser
         System.setProperty(NamedEntityParser.SYS_PROP_NER_IMPL, "org.apache.tika.parser.ner.regex.RegexNERecogniser");
 
+        //return extracted entities
         Tika tika = new Tika(new TikaConfig("tika-config.xml"));
         Metadata md = new Metadata();
         tika.parse(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)), md);
@@ -45,17 +48,7 @@ public class NERRegexUtil {
         setEntities.put("SWEET_PHYSICAL_PROCESSES", PHYSICAL_PROCESSES);
         setEntities.put("SWEET_PHYSICAL_PROPERTIES", PHYSICAL_PROPERTIES);
         setEntities.put("SWEET_LIVING_SUBSTANCES", LIVING_SUBSTANCES);
-        /*TEMPERATURE.clear();
-        WEIGHT.clear();
-        TIME.clear();
-        DERIVED_UNITS.clear();
-        HEIGHT.clear();
-        EARTH_REALM.clear();
-        LIVING_SUBSTANCES.clear();
-        NONLIVING_SUBSTANCES.clear();
-        PHYSICAL_PROCESSES.clear();
-        PHYSICAL_PROPERTIES.clear();
-        */
+  
         return setEntities;
 		
 	}

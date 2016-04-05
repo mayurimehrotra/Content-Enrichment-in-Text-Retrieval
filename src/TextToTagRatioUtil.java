@@ -6,13 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-/*import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-*/
+
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-//import org.jsoup.Jsoup;
 
 public class TextToTagRatioUtil {
 	
@@ -70,18 +66,10 @@ public class TextToTagRatioUtil {
 		
 		thisObj.getRealContentArea();
 		
-		thisObj.PrintContentAreas();
-		
-		//java 8 feature to get a count of number of lines in a file 
-		/*final Path path = Paths.get("./big_file.txt");
-		try {
-			final long lineCount = Files.lines(path).count();
-		} catch (IOException e) {			
-			e.printStackTrace();
-		}*/		
+		thisObj.PrintContentAreas();	
 	}
 
-		
+	//This function returns the TTR output string	
 	public String PrintContentAreas() {
 		
 		File fileOut=new File("content.txt");
@@ -115,7 +103,6 @@ public class TextToTagRatioUtil {
 	            }
 	            j++;
 	        }
-	       // System.out.println(outputString.toString());
 	        
 		} catch (IOException e1) {			
 			e1.printStackTrace();
@@ -133,14 +120,14 @@ public class TextToTagRatioUtil {
 
 	public void getRealContentArea() {
 		
-		//System.out.println("\nReal Content Areas : ");
+		
 		int SmoothedTTRArraySize=SmoothedTTRArray.size();
 		ContentArrayLines=new ArrayList<>();
 		//System.out.println("Smoothed Array :" +SmoothedTTRArraySize + " " + SmoothedTTRArray.toString());
 				
 		for(int i=0;i<SmoothedTTRArraySize;i++){
 			if(SmoothedTTRArray.get(i) >= stdDeviation ){
-				//System.out.print(i+ " ");
+
 				ContentArrayLines.add(i);
 			}			
 		}
@@ -158,7 +145,6 @@ public class TextToTagRatioUtil {
 
 	    stdDeviation = (float) stats.getStandardDeviation();
 	    mean=(float)stats.getMean();	    
-	    //stdDeviation +=mean;
 	    
 	    //System.out.println("Std Dev: "+stdDeviation);
 	}
@@ -222,8 +208,6 @@ public class TextToTagRatioUtil {
 		}
 	}
 
-	
-	//text= Jsoup.parse(line).text();
 	public static int getNonTagCount(String line) {
 				
 		String text;

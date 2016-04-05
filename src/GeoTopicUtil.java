@@ -3,7 +3,7 @@ import java.io.IOException;
 public class GeoTopicUtil {
 	
 	public static void GeoTopicGenerator(String fileName){
-		String cmd = "java -classpath /home/mayuri/Documents/GeoTopic/tika-app-1.12.jar:$HOME/Documents/GeoTopic/location-ner-model:$HOME/Documents/GeoTopic/geotopic-mime org.apache.tika.cli.TikaCLI -m " + fileName + " > /home/mayuri/GeoOut/GeoTopicout.txt";
+		String cmd = "java -classpath /PATH/TO/tika-app-1.12.jar:$HOME/Documents/GeoTopic/location-ner-model:$HOME/Documents/GeoTopic/geotopic-mime org.apache.tika.cli.TikaCLI -m " + fileName + " > /TEMP/PATH/TO/GeoTopicout.txt";
 		ProcessBuilder pb=new ProcessBuilder("bash","-c",cmd);
 		
 		try {
@@ -18,7 +18,7 @@ public class GeoTopicUtil {
 	}
 	public static void main(String[] args) {
 		
-		String fileName= "/home/mayuri/Documents/GeoTopic/geotopic-mime/org/apache/tika/mime/polar.geot";
+		String fileName= "/PATH/TO/polar.geot";
 		GeoTopicGenerator(fileName);
 	}
 	

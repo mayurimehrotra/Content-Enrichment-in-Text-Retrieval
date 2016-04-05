@@ -12,14 +12,14 @@ import org.json.simple.parser.ParseException;
 
 public class JSONBuilder{	     
 	
+	//This utility picks up the GROBID input and append to the JSON file containing NER, SWEET and Geotopic information
 	public static void JSONBuilderUtil(File path){
 		
 		for (File fileEntry : path.listFiles()) {
 	        	
 	        	String f = fileEntry.getName();
-	        	//System.out.println("FileName Before is :: "+f);
+	        	
 	        	f = f.replace(".txt", "");
-	        	//System.out.println("FileName is :: "+f);
 	        	
 	        	if(RunnerClass.LSTUMap.containsKey(f+".pdf")){
 	        		long score = 0L;
@@ -41,7 +41,6 @@ public class JSONBuilder{
 	    					
 	    					textFileString.append("|");
 	    				
-	    					//System.out.println(currentLine);
 	    					//currentLine = currentLine.replace("\"", "");
 	    					score++;
 	    					textFileString.append(currentLine.trim());
@@ -66,63 +65,17 @@ public class JSONBuilder{
 	    				// TODO Auto-generated catch block
 	    				e.printStackTrace();
 	    			}
-	    		
-	        		
 	        	}
-		
-/*		for(String key : RunnerClass.LSTUMap.keySet()){
-			System.out.println(key + " " + RunnerClass.LSTUMap.get(key));
-			String fName = RunnerClass.LSTUMap.get(key);
-			
-			//File TextFileHandle = new File("/Users/PavanLupane/599-2/outfiles/"+fName+".txt");
-			//File JSONFileHandle = new File("/Users/PavanLupane/599-2/outfiles/"+fName+".json");
-			
-			JSONParser parser = new JSONParser();
-			
-			try {
-				Object JsonObj = parser.parse(new FileReader("/Users/PavanLupane/599-2/outfiles/"+fName+".json"));
-				
-				JSONObject jsonObject = (JSONObject) JsonObj;
-				System.out.println(jsonObject);
-				
-				StringBuilder textFileString = new StringBuilder();
-				BufferedReader br = new BufferedReader(new FileReader("/Users/PavanLupane/599-2/outfiles/"+fName+".txt"));
-				String currentLine;
-				JSONObject tempObj = new JSONObject();
-				while((currentLine = br.readLine())!=null){
-					
-					textFileString.append("|");
-				
-					System.out.println(currentLine);
-					currentLine = currentLine.replace("\"", "");
-					textFileString.append(currentLine.trim());
-				}
-				br.close();
-				//System.out.println(textFileString.toString());
-				jsonObject.put("GROBID", textFileString.toString());
-				
-				//System.out.println(jsonObject);
-				//System.out.println(jsonObject.get("GROBID").toString());
-				
-				FileWriter file = new FileWriter("/Users/PavanLupane/599-2/outfiles/"+fName+".json");
-				file.write(jsonObject.toJSONString());
-				file.flush();
-				file.close();
-				
-			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
 	     
 	       }//end of for
 	}
 	
+	//This utility generates JSON file containing Metadata 
 	public static void JSONBuilderUtil(String fileName,HashMap<String,Set<String>> NEREntities) throws IOException{
 		JSONObject mainObj = new JSONObject();
 		mainObj.put("FileName","polar.usc.edu/"+fileName);
 		int score = 0;
-		//Printing NEW and SWEET
+		//Printing NER and SWEET
 		
 		for(String key: NEREntities.keySet() ){
 			if(NEREntities.get(key).size()!=0){

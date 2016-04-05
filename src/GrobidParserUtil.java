@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class GrobidParserUtil {
+public class GrobidParserUtil {		//This function runs GROBID utility on input PDF files
 	
 	public static void grobidGenerator(File path) throws IOException,InterruptedException,SAXException,ParserConfigurationException{
 		System.out.println("Processing Files....");
@@ -27,6 +27,7 @@ public class GrobidParserUtil {
 		
 	}
 	
+	// This function runs scholar.py utility on tei.xml files generated in GROBID utility
 	public static void scholarPyRunner(File path) throws IOException,InterruptedException,ParserConfigurationException, SAXException{
 	
 		for (File fileEntry : path.listFiles()) {
@@ -78,6 +79,7 @@ public class GrobidParserUtil {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		//Input PDF paper directory path
 		String pathString="/Users/PavanLupane/599-2/grobidWork/src/grobid/papers";
 		 File PDFpath =new File(pathString);
 		 try {

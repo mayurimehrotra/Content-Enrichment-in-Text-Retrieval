@@ -14,6 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+//This is the main Runner Class which calls all utilities as per the dependencies preferences
+
 public class RunnerClass {
 	public static HashMap<String, String> LSTUMap = new HashMap<String,String>();
 	
@@ -143,8 +145,17 @@ public class RunnerClass {
 	}
 
 	public static void main(String[] args) throws Exception{
+		// 1. Call TTRRunner to run TTR algorithm (returns text of docs)
+		// 2. Call LSTURunner for URL shortening (returns a shortened url for a file)
+		// 3. Call NERParserRunner to extract NER and SWEET ontologies/entities (returns Hashmap of <entityname,set<entities>>)
+		// 4. Call JSONBuilderUtil to build json output of metadata
+		// All these 4 function calls are bundlled inside FileIterator function
+
 		File fileHandle = new File("/home/mayuri/demo");
 		FileIterator(fileHandle);
+		
+		// 5. Call PDFRenameUtil to rename files to filename.pdf
+		// 6. Call GROBIDRunner which runs GROBID utility, scholarPy utility and  JSONBuilderUtil
 		
 		File pdfPathForGrobid = new File("/home/mayuri/demo/");
 		PDFRenameUtil.RenamePDF(pdfPathForGrobid);

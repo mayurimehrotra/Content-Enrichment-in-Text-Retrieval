@@ -32,6 +32,7 @@ public class LSTUUtil {
 		
 	}
 
+	//This function returns shortened URL
 	public String shorten(String realName) throws Exception{
 		// TODO Auto-generated method stub
 		HttpClient httpclient = HttpClients.createDefault();

@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
+//This utility is used to generate JSON file from The text for word cloud visualization
 public class WordCloud {
 
 	public static void main(String[] args) {
