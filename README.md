@@ -1,6 +1,6 @@
 # Content-Enrichment-in-Text-Retrieval
 
-#The objective of the Project
+#Objective
 It is to significantly enrich the metadata, and automatically extracted text and entities from the TREC Polar Dataset, and to make the dataset easily to relate to and to interact with. To do so, you will apply and leverage knowledge gained from context extraction, metadata, information similarity and clustering, and from the named entity recognition concepts.
 #Key Steps
 1. Context Extraction Enrichment – We applied the Tag Ratios algorithm to identify text, and constructed a Tika parser to extract Measurement mentions from text automatically.
